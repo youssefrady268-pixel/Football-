@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ultimate Team - كل العالم</title>
+    <title>Ultimate Team - الرئيسية</title>
     <style>
         body {
             background-color: #121212;
@@ -21,7 +21,7 @@
             border-radius: 10px;
             max-width: 400px;
         }
-        select, button {
+        select, button, input {
             width: 100%;
             padding: 12px;
             margin: 8px 0;
@@ -30,6 +30,7 @@
             border: 1px solid #444;
             border-radius: 5px;
             font-size: 16px;
+            box-sizing: border-box;
         }
         button {
             background: #27ae60;
@@ -57,9 +58,17 @@
         <select id="countrySelect"></select>
 
         <label>اسم ناديك / فريقك:</label>
-        <input type="text" id="teamInput" placeholder="اكتب اسم فريقك هنا..." style="width: 90%; padding: 12px; margin: 8px 0; background: #2c2c2c; color: white; border: 1px solid #444; border-radius: 5px; font-size: 16px;">
+        <input type="text" id="teamInput" placeholder="اكتب اسم فريقك هنا...">
 
         <button onclick="saveProfile()">حفظ البيانات 💾</button>
+    </div>
+
+    <!-- زرار الانتقال للماتشات -->
+    <div class="box">
+        <h2>المباريات والبطولات 🏆</h2>
+        <button onclick="window.location.href='matches.html'" style="background: #2980b9;">دخول قسم المباريات ⚽</button>
+        <button onclick="window.location.href='squad.html'" style="background: #8e44ad; margin-top: 5px;">عرض التشكيلة 📋</button>
+        <button onclick="window.location.href='market.html'" style="background: #d35400; margin-top: 5px;">سوق الانتقالات 🛒</button>
     </div>
 
     <div class="box">
@@ -69,14 +78,12 @@
     </div>
 
     <script>
-        // قائمة شاملة لكل دول العالم
         const countries = [
-            "مصر", "المملكة العربية السعودية", "المغرب", "الجزائر", "تونس", "الإمارات", "قطر", "السعودية", "العراق", "الأردن", "فلسطين", "لبنان", "سوريا", "الكويت", "عمان", "البحرين", "ليبيا", "السودان",
-            "البرازيل", "الأرجنتين", "فرنسا", "إنجلترا", "ألمانيا", "إسبانيا", "إيطاليا", "البرتغال", "بلجيكا", "هولندا", "البرتغال", "أوروغواي", "كرواتيا", "إنجلترا",
+            "مصر", "المملكة العربية السعودية", "المغرب", "الجزائر", "تونس", "الإمارات", "قطر", "العراق", "الأردن", "فلسطين", "لبنان", "سوريا", "الكويت", "عمان", "البحرين", "ليبيا", "السودان",
+            "البرازيل", "الأرجنتين", "فرنسا", "إنجلترا", "ألمانيا", "إسبانيا", "إيطاليا", "البرتغال", "بلجيكا", "هولندا", "أوروغواي", "كرواتيا",
             "الولايات المتحدة", "المكسيك", "كندا", "اليابان", "كوريا الجنوبية", "السويد", "الدنمارك", "سويسرا", "النرويج", "بولندا", "تركيا", "نيجيريا", "السنغال", "كوت ديفوار", "الكاميرون", "غانا", "أستراليا"
         ];
 
-        // تعبئة قائمة البلدان أوتوماتيك
         const countrySelect = document.getElementById('countrySelect');
         countries.forEach(country => {
             let opt = document.createElement('option');
@@ -97,7 +104,6 @@
             alert("تم حفظ فريقك (" + team + ") وبلدك (" + country + ") بنجاح!");
         }
 
-        // قاعدة بيانات اللعيبة العالمية
         const worldPlayers = [
             {name: "محمد صلاح", pos: "RW", rating: 91, club: "ليفربول", country: "مصر"},
             {name: "ليونيل ميسي", pos: "ST", rating: 93, club: "إنتر ميامي", country: "الأرجنتين"},
@@ -114,8 +120,12 @@
 
         function openPack() {
             const randomIndex = Math.floor(Math.random() * worldPlayers.length);
-            const p = worldPlayers[randomIndex];
+            const p = worldPlayers.slice(randomIndex, randomIndex + 1)[0];
             
+            let myPlayers = JSON.parse(localStorage.getItem('myPlayers')) || [];
+            myPlayers.push(p);
+            localStorage.setItem('myPlayers', JSON.stringify(myPlayers));
+
             const resultDiv = document.getElementById('playerResult');
             resultDiv.style.display = 'block';
             resultDiv.innerHTML = `🌟 مبروك! طلعلك:<br>
@@ -126,4 +136,3 @@
 
 </body>
 </html>
-
