@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate Team - كل العالم</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: Tahoma, sans-serif;
+            text-align: center;
+            padding: 10px;
+            margin: 0;
+        }
+        h1 { color: #f39c12; font-size: 22px; }
+        .box {
+            background: #1e1e1e;
+            padding: 15px;
+            margin: 10px auto;
+            border-radius: 10px;
+            max-width: 400px;
+        }
+        select, button {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            background: #2c2c2c;
+            color: white;
+            border: 1px solid #444;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            background: #27ae60;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        button:hover { background: #2ecc71; }
+        .player-card {
+            background: linear-gradient(135deg, #f1c40f, #d35400);
+            color: black;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            font-weight: bold;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>⚽ Ultimate Team - اختر بلدك وفريقك</h1>
+
+    <div class="box">
+        <label>اختر البلد (كل دول العالم):</label>
+        <select id="countrySelect"></select>
+
+        <label>اسم ناديك / فريقك:</label>
+        <input type="text" id="teamInput" placeholder="اكتب اسم فريقك هنا..." style="width: 90%; padding: 12px; margin: 8px 0; background: #2c2c2c; color: white; border: 1px solid #444; border-radius: 5px; font-size: 16px;">
+
+        <button onclick="saveProfile()">حفظ البيانات 💾</button>
+    </div>
+
+    <div class="box">
+        <h2>فتح باكتات اللاعبين 📦</h2>
+        <button onclick="openPack()" style="background: #e74c3c;">فتح باكت جديد</button>
+        <div id="playerResult" class="player-card"></div>
+    </div>
+
+    <script>
+        // قائمة شاملة لكل دول العالم
+        const countries = [
+            "مصر", "المملكة العربية السعودية", "المغرب", "الجزائر", "تونس", "الإمارات", "قطر", "السعودية", "العراق", "الأردن", "فلسطين", "لبنان", "سوريا", "الكويت", "عمان", "البحرين", "ليبيا", "السودان",
+            "البرازيل", "الأرجنتين", "فرنسا", "إنجلترا", "ألمانيا", "إسبانيا", "إيطاليا", "البرتغال", "بلجيكا", "هولندا", "البرتغال", "أوروغواي", "كرواتيا", "إنجلترا",
+            "الولايات المتحدة", "المكسيك", "كندا", "اليابان", "كوريا الجنوبية", "السويد", "الدنمارك", "سويسرا", "النرويج", "بولندا", "تركيا", "نيجيريا", "السنغال", "كوت ديفوار", "الكاميرون", "غانا", "أستراليا"
+        ];
+
+        // تعبئة قائمة البلدان أوتوماتيك
+        const countrySelect = document.getElementById('countrySelect');
+        countries.forEach(country => {
+            let opt = document.createElement('option');
+            opt.value = country;
+            opt.innerHTML = country;
+            countrySelect.appendChild(opt);
+        });
+
+        function saveProfile() {
+            const country = countrySelect.value;
+            const team = document.getElementById('teamInput').value;
+            if(!team) {
+                alert("يا بطل اكتب اسم الفريق الأول!");
+                return;
+            }
+            localStorage.setItem('userCountry', country);
+            localStorage.setItem('userTeam', team);
+            alert("تم حفظ فريقك (" + team + ") وبلدك (" + country + ") بنجاح!");
+        }
+
+        // قاعدة بيانات اللعيبة العالمية
+        const worldPlayers = [
+            {name: "محمد صلاح", pos: "RW", rating: 91, club: "ليفربول", country: "مصر"},
+            {name: "ليونيل ميسي", pos: "ST", rating: 93, club: "إنتر ميامي", country: "الأرجنتين"},
+            {name: "كريستيانو رونالدو", pos: "ST", rating: 90, club: "النصر", country: "البرتغال"},
+            {name: "كيليان مبابي", pos: "ST", rating: 92, club: "ريال مدريد", country: "فرنسا"},
+            {name: "كيفين دي بروين", pos: "CM", rating: 91, club: "مانشستر سيتي", country: "بلجيكا"},
+            {name: "فينيسيوس جونيور", pos: "LW", rating: 90, club: "ريال مدريد", country: "البرازيل"},
+            {name: "إيرلينغ هالاند", pos: "ST", rating: 92, club: "مانشستر سيتي", country: "النرويج"},
+            {name: "جود بيلينغهام", pos: "CAM", rating: 90, club: "ريال مدريد", country: "إنجلترا"},
+            {name: "حكيم زياش", pos: "RW", rating: 83, club: "جلطة سراي", country: "المغرب"},
+            {name: "رياض محرز", pos: "RW", rating: 85, club: "الأهلي", country: "الجزائر"},
+            {name: "عمر مرموش", pos: "LW", rating: 84, club: "آينتراخت فرانكفورت", country: "مصر"}
+        ];
+
+        function openPack() {
+            const randomIndex = Math.floor(Math.random() * worldPlayers.length);
+            const p = worldPlayers[randomIndex];
+            
+            const resultDiv = document.getElementById('playerResult');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = `🌟 مبروك! طلعلك:<br>
+                ${p.name} (${p.pos})<br>
+                التقييم: ${p.rating} | النادي: ${p.club} | البلد: ${p.country}`;
+        }
+    </script>
+
+</body>
+</html>
+
