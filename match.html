@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ملعب المباراة - Ultimate Team</title>
+    <style>
+        body { 
+            background-color: #121212; 
+            color: white; 
+            font-family: Tahoma, sans-serif; 
+            text-align: center; 
+            padding: 10px; 
+            margin: 0;
+        }
+        h1 { color: #f39c12; font-size: 22px; }
+        .match-board {
+            background: #1e1e1e;
+            padding: 20px;
+            margin: 15px auto;
+            border-radius: 10px;
+            max-width: 400px;
+            border: 2px solid #333;
+        }
+        .score {
+            font-size: 32px;
+            font-weight: bold;
+            color: #2ecc71;
+            margin: 15px 0;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        button:hover { background: #c0392b; }
+        .btn-blue { background: #3498db; }
+        .btn-blue:hover { background: #2980b9; }
+        .commentary {
+            background: #2c2c2c;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 15px;
+            font-size: 14px;
+            color: #f1c40f;
+            min-height: 40px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>⚽ مباراتك الحماسية</h1>
+
+    <div class="match-board">
+        <h3 id="teamNameDisplay">فريقك ضد الخصم</h3>
+        <div class="score" id="scoreDisplay">0 - 0</div>
+        <div class="commentary" id="commentaryBox">الحكم هيطلق صافرة البداية الآن! حظ سعيد يا بطل.</div>
+        
+        <button onclick="attack()">هجمة منظمة 🔥</button>
+        <button onclick="defend()" class="btn-blue">دفاع صلب 🛡️</button>
+    </div>
+
+    <button onclick="window.location.href='squad.html'" style="background: #555; max-width: 420px; margin: auto; display: block;">العودة للتشكيلة 📋</button>
+
+    <script>
+        // عرض اسم فريقك المخزن
+        const savedTeam = localStorage.getItem('userTeam') || 'فريقي';
+        document.getElementById('teamNameDisplay').innerHTML = `${savedTeam} 🆚 الخصم`;
+
+        let myGoals = 0;
+        let enemyGoals = 0;
+
+        const commentaries = [
+            "تمريرة سحرية من وسط الملعب!",
+            "يا تررررى.. تسديدة خطيرة ولكن تمر بعيدة!",
+            "دفاع عالمي ينقذ الموقف في أخر لحظة!",
+            "انفراد تام والحارس يتألق!",
+            "جگوووول! هدف ولا أروع يا بطل! ⚽🔥"
+        ];
+
+        function updateScore() {
+            document.getElementById('scoreDisplay').innerHTML = `${myGoals} - ${enemyGoals}`;
+        }
+
+        function attack() {
+            const randomMsg = commentaries[Math.floor(Math.random() * commentaries.length)];
+            document.getElementById('commentaryBox').innerHTML = randomMsg;
+
+            // فرصة تسجيل هدف بنسبة حلوة
+            if (Math.random() > 0.4) {
+                myGoals++;
+                document.getElementById('commentaryBox').innerHTML = "🚀 GOOOAL! سجلت هدف يا معلم!";
+            } else {
+                document.getElementById('commentaryBox').innerHTML = "❌ ضاعت الهجمة للأسف، الحارس تصدى لها ببرعة.";
+            }
+            updateScore();
+        }
+
+        function defend() {
+            if (Math.random() > 0.5) {
+                document.getElementById('commentaryBox').innerHTML = "🛡️ تصدي أسطوري من الدفاع، منعنا هدف محقق!";
+            } else {
+                enemyGoals++;
+                document.getElementById('commentaryBox').innerHTML = "⚠️ للأسف الخصم استغل ثغرة وسجل هدف!";
+            }
+            updateScore();
+        }
+    </script>
+
+</body>
+</html>
