@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سوق الانتقالات - Ultimate Team</title>
+    <style>
+        body { 
+            background-color: #121212; 
+            color: white; 
+            font-family: Tahoma, sans-serif; 
+            text-align: center; 
+            padding: 10px; 
+            margin: 0;
+        }
+        h1 { color: #f39c12; font-size: 22px; }
+        .market-box {
+            background: #1e1e1e;
+            padding: 15px;
+            margin: 10px auto;
+            border-radius: 10px;
+            max-width: 400px;
+            border: 2px solid #333;
+        }
+        .market-item {
+            background: #2c2c2c;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        button {
+            padding: 8px 12px;
+            background: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        button:hover { background: #2ecc71; }
+        .back-btn {
+            width: 100%;
+            max-width: 420px;
+            padding: 12px;
+            background: #3498db;
+            margin-top: 15px;
+        }
+        .back-btn:hover { background: #2980b9; }
+    </style>
+</head>
+<body>
+
+    <h1>🛒 سوق الانتقالات</h1>
+
+    <div class="market-box">
+        <h3>شراء نجوم العالم ⭐</h3>
+        <div id="marketList">
+            <!-- اللعيبة المتاحة للشراء هتنزل هنا -->
+        </div>
+    </div>
+
+    <button class="back-btn" onclick="window.location.href='index.html'">العودة للرئيسية 🏠</button>
+
+    <script>
+        // اللعيبة المعروضة للبيع في السوق
+        const marketPlayers = [
+            {name: "كيفين دي بروين", pos: "CM", rating: 91, club: "مانشستر سيتي", price: 5000},
+            {name: "فينيسيوس جونيور", pos: "LW", rating: 90, club: "ريال مدريد", price: 4500},
+            {name: "عمر مرموش", pos: "LW", rating: 84, club: "آينتراخت فرانكفورت", price: 2000}
+        ];
+
+        const listContainer = document.getElementById('marketList');
+
+        function loadMarket() {
+            listContainer.innerHTML = "";
+            marketPlayers.forEach((p, index) => {
+                listContainer.innerHTML += `
+                    <div class="market-item">
+                        <div style="text-align: right;">
+                            <b>${p.name}</b> (${p.pos})<br>
+                            <small>التقييم: ${p.rating} | السعر: ${p.price} كوينز</small>
+                        </div>
+                        <button onclick="buyPlayer(${index})">شراء</button>
+                    </div>
+                `;
+            });
+        }
+
+        function buyPlayer(index) {
+            const p = marketPlayers[index];
+            let myPlayers = JSON.parse(localStorage.getItem('myPlayers')) || [];
+            
+            // إضافة اللعيب للتشكيلة بتاعتك
+            myPlayers.push(p);
+            localStorage.setItem('myPlayers', JSON.stringify(myPlayers));
+            
+            alert(`تم شراء ${p.name} بنجاح وتم إضافته لسكوادك! 🌟`);
+        }
+
+        loadMarket();
+    </script>
+
+</body>
+</html>
+
