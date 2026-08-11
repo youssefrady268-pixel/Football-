@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>تشكيلتي الأساسية - Ultimate Team</title>
+    <style>
+        body { background-color: #1a1a1a; color: white; font-family: sans-serif; text-align: center; padding: 20px; }
+        .pitch { 
+            background: #27ae60; 
+            border: 3px solid white; 
+            padding: 20px; 
+            border-radius: 10px; 
+            max-width: 500px; 
+            margin: auto;
+            min-height: 300px;
+        }
+        .player-slot { 
+            background: #34495e; 
+            margin: 10px; 
+            padding: 10px; 
+            border-radius: 5px; 
+            border: 1px solid #bdc3c7;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>⚽ تشكيلتي الأساسية</h1>
+    
+    <div class="pitch" id="squadContainer">
+        <!-- هنا هنعرض اللعيبة -->
+        <div class="player-slot">الحارس: (فارغ)</div>
+        <div class="player-slot">الدفاع: (فارغ)</div>
+        <div class="player-slot">الوسط: (فارغ)</div>
+        <div class="player-slot">الهجوم: (فارغ)</div>
+    </div>
+
+    <br>
+    <button onclick="window.location.href='index.html'" style="padding: 10px 20px;">العودة للمتجر 🛒</button>
+
+    <script>
+        // هنا هنربط اللعيبة اللي فتحتها في الـ index.html بالتشكيلة
+        // ممكن نستخدم localStorage عشان نحفظ اللعيبة اللي طلعتلك
+        console.log("جاهزين نربط اللعيبة بالملعب!");
+    </script>
+</body>
+</html>
+
